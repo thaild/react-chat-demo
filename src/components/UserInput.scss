@@ -1,0 +1,43 @@
+button.user-input--buttons input[type="file"]{display: block}
+
+button.user-input--buttons{
+    float: left !important;
+}
+
+
+.sc-user-input--file-icon,
+.sc-user-input--send-icon {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    align-self: center;
+    outline: none;
+}
+
+.sc-user-input--file-icon path,
+.sc-user-input--send-icon path {
+    fill: rgba(86, 88, 103, 0.3);
+}
+
+.sc-user-input--file-icon:hover path,
+.sc-user-input--send-icon:hover path {
+    fill: rgba(86, 88, 103, 1);
+}
+.message--file {
+    //background: white;
+    //border: solid 1px #CCCDD1;
+    //padding: 15px 20px;
+    //border-radius: 5px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.4;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.message--file p {
+    padding-left: 8px;
+}
