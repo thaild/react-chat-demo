@@ -6,19 +6,21 @@ class UserInput extends Component {
 
     _onFilesSelected(event) {
         if (event.target.files && event.target.files.length > 0) {
-            this.props.onFilesSelected(event.target.files)
+            this.props.onFilesSelected(event.target.files);
         }
+    }
+
+    _sendMessage(event){
+        event.preventDefault();
+        this.props.onMessage(this.textArea.value);
+        this.textArea.value = '';
+        this.files.value = '';
     }
 
     render() {
         return (
             <div className="chat-message clearfix">
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    this.props.onMessage(this.textArea.value);
-                    this.textArea.value = '';
-                    this.files.value = '';
-                }}>
+                <form onSubmit={this._sendMessage.bind(this)}>
 
                     <textarea rows="3"
                               ref={(e) => { this.textArea = e; }}
@@ -35,7 +37,7 @@ class UserInput extends Component {
                         />
                     </button>
 
-                    <button className="">Send Message!</button>
+                    <button>Send Message!</button>
                 </form>
             </div>
         );

@@ -13,7 +13,8 @@ class MessageList extends Component {
             <div className="chat-history" ref={el => this.scrollList = el}>
                 <ul>
                     {this.props.messages.map((message, i) => {
-                        return <Message message={message} key={i} />
+                        return this.props.socket === message.author ? <Message message={message} key={i} right={true}/> :
+                            <Message message={message} key={i} right={false}/>;
                     })}
                 </ul>
             </div>

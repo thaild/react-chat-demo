@@ -48,6 +48,7 @@ img {
 .chat-history {
     padding: 30px 30px 20px;
     border-bottom: 2px solid white;
+    overflow-x: hidden;
     overflow-y: auto;
     height: 575px;
 
@@ -70,7 +71,11 @@ img {
     width: 90%;
     position: relative;
 
-&:after {
+    white-space: pre-wrap;
+    //overflow: hidden;
+    text-overflow: ellipsis;
+
+  &:after {
      bottom: 100%;
      left: 7%;
      border: solid transparent;

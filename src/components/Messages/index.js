@@ -19,47 +19,31 @@ class Message extends Component {
         const messageType = this.props.message.type;
         const messageContent = this._renderMessageContentOfType(messageType);
 
-        const isReceiver = this.props.message.author !== "me";
+        return this.props.right ? (
+            <li className="clearfix">
+                <div className="message-data align-right">
+                    <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
+                    <span className="message-data-name">{this.props.message.author} </span>
+                    <i className="fa fa-circle me"></i>
 
-        if (isReceiver) {
-            return <Receiver message={this.props.message} messageContent={messageContent}/>;
-        } else {
-            return <Sender message={this.props.message} messageContent={messageContent}/>;
-        }
+                </div>
+                <div className="message other-message float-right">
+                    {messageContent}
+                </div>
+            </li>
+        ) : (
+            <li>
+                <div className="message-data">
+                    <span className="message-data-name">
+                        <i className="fa fa-circle online"></i>{this.props.message.author}</span>
+                    <span className="message-data-time">10:12 AM, Today</span>
+                </div>
+                <div className="message my-message">
+                    {messageContent}
+                </div>
+            </li>
+        );
     }
 }
 
 export default Message
-
-class Sender extends Component {
-    render () {
-        return (
-            <li className="clearfix">
-                <div className="message-data align-right">
-                    <span className="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
-                    <span className="message-data-name">{this.props.message.author}</span> <i className="fa fa-circle me"></i>
-
-                </div>
-                <div className="message other-message float-right">
-                    {this.props.messageContent}
-                </div>
-            </li>
-        )
-    }
-}
-
-class Receiver extends Component {
-    render () {
-        return (
-            <li>
-                <div className="message-data">
-                    <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.message.author}</span>
-                    <span className="message-data-time">10:12 AM, Today</span>
-                </div>
-                <div className="message my-message">
-                    {this.props.messageContent}
-                </div>
-            </li>
-        )
-    }
-}
