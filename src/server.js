@@ -53,7 +53,7 @@ io.on('connection', (client) => {
 
     client.on('disconnect', function () {
         console.log('client disconnect...', client.id);
-        handleConnection();
+        handleDisconnection(client.id);
     });
 
     client.on('error', function (err) {
@@ -70,4 +70,8 @@ function handleConnection(){
         console.log(clients);
         io.emit('HANDLE_CLIENT_CONNECT', clients)
     });
+}
+
+function handleDisconnection(client_id){
+    io.emit('HANDLE_CLIENT_DISCONNECT', client_id)
 }

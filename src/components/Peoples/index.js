@@ -14,45 +14,53 @@ class Peoples extends Component {
 
         this.socket = this.props.socket;
         this.socket.on('HANDLE_CLIENT_CONNECT', (clients) => this.connectedPeoples(clients) );
+        this.socket.on('HANDLE_CLIENT_DISCONNECT', (client) => this.disconnectPeoples(client) );
     }
 
-    componentDidMount() {
-        // this.socket.on('connect', () => {
-        //     console.log(this.socket.connected); // true
-        //     if (this.socket.connected){
-        //         this.setState({
-        //             peoples: [...this.state.peoples, {
-        //                 name: this.socket.id.substring(0, 15) || 'N/A',
-        //                 status: this.socket.connected ? 'online' : 'offline',
-        //                 profilePic: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg'
-        //             }]
-        //         });
-        //     }
-        //     console.log(this.state.peoples.length)
-        // });
-    }
-
-    connectedPeoples(clients) {
-        // console.log(clients);
-
+    componentWillMount() {
         this.setState({
             peoples: this.state.initial
         });
+    }
 
+    componentDidMount() {
+    }
+
+    connectedPeoples(clients) {
         clients.map((client, i) => {
-            this.setState({
-                peoples: [...this.state.peoples, {
-                    name: client || 'N/A',
-                    status: this.socket.connected ? 'online' : 'offline',
-                    profilePic: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg'
-                }]
-            });
+            if (!this.state.peoples.find((people) => people.name === client)) {
+                this.setState({
+                    peoples: [...this.state.peoples, {
+                        name: client || 'N/A',
+                        status: this.socket.connected ? 'online' : 'offline',
+                        profilePic: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg'
+                    }]
+                });
+            }
             return 0;
-        })
+        });
+    }
 
+    disconnectPeoples(client) {
+        var peoples = this.state.peoples;
+
+        for (let i = 0; i < peoples.length; i++){
+            if (peoples[i].name === client){
+                peoples[i].status = 'offline';
+            }
+        }
+
+        this.setState({peoples: peoples });
+    }
+
+    removeDisconnectedPeoples() {
+        this.setState({
+            peoples: this.state.peoples.filter( (client) => client.status === 'online')
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
+        setTimeout(this.removeDisconnectedPeoples.bind(this), 9000);
         this.scrollList.scrollTop = this.scrollList.scrollHeight;
     }
 
@@ -76,13 +84,13 @@ const PeopleList = ({peoples}) =>
         })}
     </ul>;
 
-const People = ({profilePic, name}) =>
+const People = ({profilePic, name, status}) =>
     <li className="clearfix">
         <img src={profilePic} alt="avatar"/>
         <div className="about">
             <div className="name">{name}</div>
             <div className="status">
-                <i className="fa fa-circle online"></i> online
+                <i className={`fa fa-circle ${status}`}></i> {status}
             </div>
         </div>
     </li>;

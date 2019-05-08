@@ -87,7 +87,7 @@ class Chat extends Component {
 
     componentDidMount() {
         this.socket.on('connect', () => {
-            console.log(this.socket.connected); // true
+            // console.log(this.socket.connected); // true
             if (this.socket.connected){
                 this.setState({
                     client_id: this.socket.id
